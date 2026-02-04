@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MR CEU Studio | AIA Continuing Education</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Refined Light Theme (Warm Design-Tech Editorial) */
+      --bg-dark: #F7F7F8;
+      --bg-surface: #FFFFFF;
+      --bg-card: #FFFFFF;
+      --border-color: #E6E7EB;
+      --text-primary: #1E1F23;
+      --text-secondary: #6B7280;
+      --text-tertiary: #9CA3AF;
+      --accent-purple: #6F3CC3;
+      --accent-purple-glow: rgba(111, 60, 195, 0.08);
+      --glass-bg: rgba(255, 255, 255, 0.85);
+    }
+
+    body.dark {
+      /* Architectural Dark Mode (Deep Charcoal / Light Black) */
+      --bg-dark: #121214;
+      --bg-surface: #18181B;
+      --bg-card: #202023;
+      --border-color: #2D2D31;
+      --text-primary: #F2F2F4;
+      --text-secondary: #A1A1AA;
+      --text-tertiary: #52525B;
+      --accent-purple: #8B5CF6;
+      --accent-purple-glow: rgba(139, 92, 246, 0.15);
+      --glass-bg: rgba(24, 24, 27, 0.8);
+    }
+
+    body { 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
+      letter-spacing: -0.011em;
+    }
+    
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
+
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up { animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-scroll {
+      animation: scroll 40s linear infinite;
+    }
+
+    /* Accessibility: Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-video-container video {
+        display: none !important;
+      }
+      .hero-video-container .fallback-image {
+        display: block !important;
+      }
+      .animate-fade-in-up, .animate-scroll {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+
+    /* Force Hide Video Controls for Ambient Experience */
+    video::-webkit-media-controls {
+      display: none !important;
+    }
+    video::-webkit-media-controls-enclosure {
+      display: none !important;
+    }
+    video::-webkit-media-controls-panel {
+      display: none !important;
+    }
+    video {
+      pointer-events: none; /* Prevents right-click and interaction with ambient video */
+    }
+
+    .card-shadow {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card-shadow:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.08);
+    }
+
+    .cta-primary {
+      background-color: #111111;
+      color: #FFFFFF;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cta-primary:hover {
+      background-color: #1a1a1a;
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 15px 40px -12px rgba(111, 60, 195, 0.4);
+    }
+    .cta-primary:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    body.dark .cta-primary {
+      background-color: #F2F2F4;
+      color: #121214;
+    }
+    body.dark .cta-primary:hover {
+      background-color: #FFFFFF;
+    }
+
+    ::selection {
+      background-color: var(--accent-purple);
+      color: white;
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.475.0",
+    "next/": "https://esm.sh/next@^16.1.6/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.39.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="dark">
+  <div id="root"></div>
+  <script type="module" src="index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
