@@ -145,7 +145,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
                 poster="/images/mr-ceu-preview-poster.jpg"
                 className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none brightness-90 grayscale-[0.2] contrast-110"
               >
-                <source <source <source src="/videos/hero-transformation.mp4" type="video/mp4" />
+                <source src="/videos/hero-transformation.mp4" type="video/mp4" />
+
 
 
               </video>
