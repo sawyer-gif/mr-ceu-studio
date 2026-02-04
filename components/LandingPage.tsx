@@ -168,7 +168,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
             <div className="flex items-center gap-4">
               <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)] animate-pulse" />
               <span className="mono text-[10px] font-black uppercase tracking-[0.4em] text-[var(--text-secondary)]">
-                Studio Alpha v2.5.0 — Applied System Logic
+                TRANSFORMING STATIC PRESENTATIONS INTO INTERACTIVE DIGITAL EXPERIENCES
               </span>
             </div>
           </div>
