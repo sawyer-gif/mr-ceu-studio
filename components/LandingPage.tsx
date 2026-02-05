@@ -113,7 +113,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
             <span className="text-gradient">Reimagined.</span>
           </h1>
           <p className="text-lg md:text-2xl text-[var(--text-secondary)] max-w-4xl mx-auto leading-relaxed font-medium">
-            Immersive, interactive learning designed for commercial architects. Earn AIA-compliant HSW credit through applied computational design.
+            Immersive, interactive learning designed for commercial architects. Earn AIA-compliant HSW credit through real-world design scenarios and project based-learning.
           </p>
         </div>
 
