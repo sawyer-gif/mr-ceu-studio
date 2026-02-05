@@ -194,7 +194,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
           {[
             { icon: Box, title: "STUDIO INTERFACE", desc: "Interactive modules designed for architects who learn by doing, not just watching." },
             { icon: Award, title: "1.0 HSW CREDIT", desc: "Meet your annual Health, Safety, and Welfare requirements with verified project-based learning." },
-            { icon: FileText, title: "AUTO-SPEC GEN", desc: "Export CSI MasterFormat specifications based directly on your studio design decisions." }
+            { icon: FileText, title: "REAL WORLD APPLICATION", desc: "Turn CEU learning into real design decisions" }
           ].map((item, idx) => (
             <div key={idx} className="flex flex-col items-center gap-8 p-12 rounded-[48px] bg-[var(--bg-surface)] border border-[var(--border-color)] shadow-sm hover:border-[var(--accent-purple)]/30 transition-all group">
               <div className="w-20 h-20 rounded-3xl bg-[var(--bg-dark)] flex items-center justify-center text-[var(--accent-purple)] border border-[var(--border-color)] group-hover:scale-110 transition-transform">
