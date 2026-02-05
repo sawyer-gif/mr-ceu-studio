@@ -177,7 +177,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
         {/* Firm Marquee */}
         <section className="w-full overflow-hidden py-20 border-t border-[var(--border-color)]">
           <div className="text-center mb-10">
-             <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--text-tertiary)]">Adopted by the world's leading firms</span>
+             <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--text-tertiary)]">Built for the world's leading firms</span>
           </div>
           <div className="flex whitespace-nowrap animate-scroll">
             {marqueeContent.map((firm, i) => (
