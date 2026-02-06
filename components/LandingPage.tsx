@@ -236,7 +236,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
             </div>
           ))}
         </section>
-      </header>
+ 
 
       <footer className="w-full border-t border-[var(--border-color)] py-20 px-12 flex flex-col md:flex-row justify-between items-center gap-10 opacity-70">
         <div className="flex items-center gap-3">
