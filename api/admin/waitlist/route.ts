@@ -23,3 +23,4 @@ const session = cookieStore.get('admin_session');
     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
   }
 }
+
