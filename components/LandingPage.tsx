@@ -100,39 +100,27 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
 
 {/* HERO WRAPPER */}
 <section className="relative w-full min-h-screen overflow-hidden">
-
-
   {/* Background Video */}
- <div className="absolute inset-0 z-0 overflow-hidden">
-  <video
-    className="block w-full h-full min-w-full min-h-full object-cover object-center"
-    autoPlay
-    loop
-    muted
-    playsInline
-    preload="auto"
-  >
-    <source src="/videos/background.mp4" type="video/mp4" />
-  </video>
-</div>
-
-
-  {/* Dark Overlay */}
-<div className="absolute inset-0 z-10 bg-black/60" />
-
-  {/* Hero Content */}
-<header className="relative z-20 min-h-screen w-full flex flex-col items-center justify-center text-center px-6 pt-32 pb-12">
-
-
-  <div className="mb-8 animate-fade-in-up">
-    ...
+  <div className="absolute inset-0 z-0 overflow-hidden">
+    <video
+      className="w-full h-full object-cover"
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="auto"
+    >
+      <source src="/videos/background.mp4" type="video/mp4" />
+    </video>
   </div>
 
-  ...
-</header>
-</section>
+  {/* Dark Overlay */}
+  <div className="absolute inset-0 z-10 bg-black/60" />
 
-        <div className="mb-8 animate-fade-in-up">
+  {/* Hero Content */}
+  <div className="relative z-20 min-h-screen flex items-center justify-center px-6 pt-32 pb-12 text-center">
+    <div className="w-full max-w-6xl">
+          <div className="mb-8 animate-fade-in-up">
           <div className="inline-flex items-center gap-2.5 px-6 py-2.5 bg-[#EFE8FB] border border-[#6F3CC3]/20 rounded-full dark:bg-[#6F3CC3]/10 dark:border-[#8B5CF6]/30 shadow-sm">
             <ShieldCheck size={14} className="text-[#6F3CC3] dark:text-[#8B5CF6]" />
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#6F3CC3] dark:text-[#8B5CF6]">AIA CES Registered Provider</span>
@@ -160,6 +148,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
           </div>
         </div>
 
+      {/* ✅ put all your headline / subhead / buttons here */}
+      {/* (paste your existing hero text/button JSX inside this div) */}
+    </div>
+  </div>
+
+
+
+    
         {/* Ambient Background Video Section */}
         <section className="w-full pt-8 pb-32 px-4 flex flex-col items-center animate-fade-in-up hero-video-container">
           <div className="relative w-full max-w-[1200px] aspect-video rounded-[28px] overflow-hidden border border-[var(--border-color)] shadow-[0_40px_100px_-20px_rgba(111,60,195,0.2)] bg-[var(--bg-dark)] ring-1 ring-purple-500/20">
