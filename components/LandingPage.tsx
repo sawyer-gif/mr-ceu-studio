@@ -269,7 +269,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
           <button onClick={() => onAdminLoginToggle(true)} className="hover:text-[var(--accent-purple)] transition-colors lowercase opacity-40 hover:opacity-100">admin</button>
         </div>
       </footer>
-    </div>
+    </section>
   );
 };
 
