@@ -153,55 +153,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#6F3CC3] dark:text-[#8B5CF6]">AIA CES Registered Provider</span>
           </div>
         </div>
-
-  
-
-    
-        {/* Ambient Background Video Section */}
-        <section className="w-full pt-8 pb-32 px-4 flex flex-col items-center animate-fade-in-up hero-video-container">
-          <div className="relative w-full max-w-[1200px] aspect-video rounded-[28px] overflow-hidden border border-[var(--border-color)] shadow-[0_40px_100px_-20px_rgba(111,60,195,0.2)] bg-[var(--bg-dark)] ring-1 ring-purple-500/20">
-            
-            {!prefersReducedMotion ? (
-              <video 
-                autoPlay 
-                muted 
-                loop 
-                playsInline 
-                preload="metadata"
-                controls={false}
-                disablePictureInPicture
-                disableRemotePlayback
-                poster="/images/mr-ceu-preview-poster.jpg"
-                className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none brightness-90 grayscale-[0.2] contrast-110"
-              >
-                <source src="/videos/hero-transformation.mp4" type="video/mp4" />
-
-
-
-              </video>
-            ) : (
-              <img 
-                src="/images/mr-ceu-preview-poster.jpg" 
-                alt="Architectural Surface Visualization" 
-                className="absolute inset-0 w-full h-full object-cover z-0" 
-              />
-            )}
-            
-            {/* Visual Depth Accents - Purely Aesthetic */}
-            <div className="absolute inset-0 z-10 pointer-events-none ring-1 ring-inset ring-white/10 rounded-[28px]" />
-            <div className="absolute top-0 inset-x-0 h-48 bg-gradient-to-b from-[var(--bg-dark)] to-transparent z-10 opacity-70" />
-            <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-[var(--bg-dark)] to-transparent z-10 opacity-70" />
-          </div>
-          
-          <div className="mt-12 flex flex-col items-center gap-2 opacity-60">
-            <div className="flex items-center gap-4">
-              <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)] animate-pulse" />
-              <span className="mono text-[10px] font-black uppercase tracking-[0.4em] text-[var(--text-secondary)]">
-                TRANSFORMING STATIC PRESENTATIONS INTO INTERACTIVE DIGITAL EXPERIENCES
-              </span>
-            </div>
-          </div>
         </section>
+
 
         {/* Firm Marquee */}
         <section className="w-full overflow-hidden py-20 border-t border-[var(--border-color)]">
