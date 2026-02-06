@@ -270,6 +270,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
         </div>
       </footer>
     </section>
+   </div>   
   );
 };
 
