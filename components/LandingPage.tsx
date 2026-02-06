@@ -98,8 +98,37 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
         </div>
       </nav>
 
-      {/* Hero Content */}
-      <header className="relative z-10 min-h-[90vh] max-w-6xl w-full flex flex-col items-center justify-center text-center px-6 pt-32 pb-12">
+{/* HERO WRAPPER */}
+<section className="relative min-h-[90vh] overflow-hidden">
+
+  {/* Background Video */}
+  <div className="absolute inset-0 z-0">
+    <video
+      className="w-full h-full object-cover"
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="auto"
+    >
+      <source src="/videos/background.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  {/* Dark Overlay */}
+  <div className="absolute inset-0 z-10 bg-black/60" />is thi 
+
+  {/* Hero Content */}
+<header className="relative z-20 max-w-6xl w-full flex flex-col items-center justify-center text-center px-6 pt-32 pb-12">
+
+  <div className="mb-8 animate-fade-in-up">
+    ...
+  </div>
+
+  ...
+</header>
+</section>
+
         <div className="mb-8 animate-fade-in-up">
           <div className="inline-flex items-center gap-2.5 px-6 py-2.5 bg-[#EFE8FB] border border-[#6F3CC3]/20 rounded-full dark:bg-[#6F3CC3]/10 dark:border-[#8B5CF6]/30 shadow-sm">
             <ShieldCheck size={14} className="text-[#6F3CC3] dark:text-[#8B5CF6]" />
