@@ -119,9 +119,17 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
 
   {/* Hero Content */}
   <div className="relative z-20 min-h-screen flex items-center justify-center px-6 pt-32 pb-12 text-center">
-    <div className="w-full max-w-6xl">
+    <div className="w-full max-w-6xl flex flex-col items-center text-center">
           <div className="mb-8 animate-fade-in-up">
                   <div className="mb-14 animate-fade-in-up">
+                    
+          <div className="inline-flex items-center gap-2.5 px-6 py-2.5 bg-[#EFE8FB] border border-[#6F3CC3]/20 rounded-full dark:bg-[#6F3CC3]/10 dark:border-[#8B5CF6]/30 shadow-sm">
+            <ShieldCheck size={14} className="text-[#6F3CC3] dark:text-[#8B5CF6]" />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#6F3CC3] dark:text-[#8B5CF6]">AIA CES Registered Provider</span>
+          </div>
+        </div>
+       
+      
           <h1 className="text-5xl md:text-[8rem] font-black tracking-tighter mb-8 leading-[0.85] text-[var(--text-primary)]">
             Earn Your HSW CEU — <br/>
             <span className="text-gradient">Reimagined.</span>
@@ -147,13 +155,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
     </div>
   </div>
 
-
-          <div className="inline-flex items-center gap-2.5 px-6 py-2.5 bg-[#EFE8FB] border border-[#6F3CC3]/20 rounded-full dark:bg-[#6F3CC3]/10 dark:border-[#8B5CF6]/30 shadow-sm">
-            <ShieldCheck size={14} className="text-[#6F3CC3] dark:text-[#8B5CF6]" />
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#6F3CC3] dark:text-[#8B5CF6]">AIA CES Registered Provider</span>
-          </div>
-        </div>
-        </section>
 
 
         {/* Firm Marquee */}
