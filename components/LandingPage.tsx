@@ -99,24 +99,26 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
       </nav>
 
 {/* HERO WRAPPER */}
-<section className="relative min-h-[90vh] overflow-hidden">
+<section className="relative w-full min-h-screen overflow-hidden">
+
 
   {/* Background Video */}
-  <div className="absolute inset-0 z-0">
-    <video
-      className="w-full h-full object-cover"
-      autoPlay
-      loop
-      muted
-      playsInline
-      preload="auto"
-    >
-      <source src="/videos/background.mp4" type="video/mp4" />
-    </video>
-  </div>
+ <div className="absolute inset-0 z-0 overflow-hidden">
+  <video
+    className="block w-full h-full min-w-full min-h-full object-cover object-center"
+    autoPlay
+    loop
+    muted
+    playsInline
+    preload="auto"
+  >
+    <source src="/videos/background.mp4" type="video/mp4" />
+  </video>
+</div>
+
 
   {/* Dark Overlay */}
-  <div className="absolute inset-0 z-10 bg-black/60" />is thi 
+<div className="absolute inset-0 z-10 bg-black/60" />
 
   {/* Hero Content */}
 <header className="relative z-20 max-w-6xl w-full flex flex-col items-center justify-center text-center px-6 pt-32 pb-12">
