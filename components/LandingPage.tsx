@@ -121,7 +121,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
 <div className="absolute inset-0 z-10 bg-black/60" />
 
   {/* Hero Content */}
-<header className="relative z-20 max-w-6xl w-full flex flex-col items-center justify-center text-center px-6 pt-32 pb-12">
+<header className="relative z-20 min-h-screen w-full flex flex-col items-center justify-center text-center px-6 pt-32 pb-12">
+
 
   <div className="mb-8 animate-fade-in-up">
     ...
