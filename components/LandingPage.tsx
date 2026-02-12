@@ -119,45 +119,34 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
 
   {/* Hero Content */}
   <div className="relative z-20 min-h-screen flex items-center justify-center px-6 pt-32 pb-12 text-center">
-    <div className="w-full max-w-6xl flex flex-col items-center text-center">
-          <div className="mb-8 animate-fade-in-up">
-                  <div className="mb-14 animate-fade-in-up">
-                    
-          <div className="inline-flex items-center gap-2.5 px-6 py-2.5 bg-[#EFE8FB] border border-[#6F3CC3]/20 rounded-full dark:bg-[#6F3CC3]/10 dark:border-[#8B5CF6]/30 shadow-sm">
-            <ShieldCheck size={14} className="text-[#6F3CC3] dark:text-[#8B5CF6]" />
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#6F3CC3] dark:text-[#8B5CF6]">AIA CES Registered Provider</span>
-          </div>
+    <div className="w-full max-w-6xl flex flex-col items-center text-center gap-10">
+      <div className="flex flex-col items-center gap-6 animate-fade-in-up">
+        <div className="inline-flex items-center gap-2.5 px-6 py-2.5 bg-[#EFE8FB] border border-[#6F3CC3]/20 rounded-full dark:bg-[#6F3CC3]/10 dark:border-[#8B5CF6]/30 shadow-sm">
+          <ShieldCheck size={14} className="text-[#6F3CC3] dark:text-[#8B5CF6]" />
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#6F3CC3] dark:text-[#8B5CF6]">AIA CES Registered Provider</span>
         </div>
-       
-      
-          <h1 className="text-5xl md:text-[8rem] font-black tracking-tighter mb-8 leading-[0.85] text-[var(--text-primary)]">
-            Earn Your HSW CEU — <br/>
-            <span className="text-gradient">Reimagined.</span>
-          </h1>
-          <p className="text-lg md:text-2xl text-[var(--text-secondary)] max-w-4xl mx-auto leading-relaxed font-medium">
-            Immersive, interactive learning designed for commercial architects. Earn AIA-compliant HSW credit through real-world design scenarios and project based-learning.
-          </p>
-        </div>
+        <h1 className="text-5xl md:text-[8rem] font-black tracking-tighter leading-[0.85] text-[var(--text-primary)]">
+          Earn Your HSW CEU — <br />
+          <span className="text-gradient">Reimagined.</span>
+        </h1>
+        <p className="text-lg md:text-2xl text-[var(--text-secondary)] max-w-4xl mx-auto leading-relaxed font-medium">
+          Immersive, interactive learning designed for commercial architects. Earn AIA-compliant HSW credit through real-world design scenarios and project based-learning.
+        </p>
+      </div>
 
-        <div className="mb-24 animate-fade-in-up flex flex-col items-center gap-10">
-          <div className="flex flex-col md:flex-row gap-6 items-center">
-            <button onClick={() => setIsWaitlistOpen(true)} className="cta-primary relative flex items-center gap-8 px-14 py-8 font-black text-2xl rounded-full transition-all">
-              🚀 Join Priority Waitlist
-            </button>
-          </div>
-          <div className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.5em] text-[var(--text-tertiary)] flex items-center gap-3">
-             AIA Registered <span className="opacity-30">•</span> HSW Credit <span className="opacity-30">•</span> 100% Compliant
-          </div>
+      <div className="animate-fade-in-up flex flex-col items-center gap-6">
+        <button onClick={() => setIsWaitlistOpen(true)} className="cta-primary relative flex items-center gap-8 px-14 py-8 font-black text-2xl rounded-full transition-all">
+          🚀 Join Priority Waitlist
+        </button>
+        <div className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.5em] text-[var(--text-tertiary)] flex items-center gap-3">
+          AIA Registered <span className="opacity-30">•</span> HSW Credit <span className="opacity-30">•</span> 100% Compliant
         </div>
-
-      {/* ✅ put all your headline / subhead / buttons here */}
-      {/* (paste your existing hero text/button JSX inside this div) */}
+      </div>
     </div>
   </div>
+</section>
 
-
-
-        {/* Firm Marquee */}
+        {/* Firm Marquee */}        {/* Firm Marquee */}
         <section className="w-full overflow-hidden py-20 border-t border-[var(--border-color)]">
           <div className="text-center mb-10">
              <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--text-tertiary)]">Built for the world's leading firms</span>
@@ -169,6 +158,27 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)] opacity-30 mx-4" />
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* Studio Immersion Reel */}
+        <section className="w-full border-t border-[var(--border-color)] bg-[var(--bg-surface)]">
+          <div className="max-w-6xl mx-auto px-4 md:px-8 py-16 flex flex-col items-center gap-6">
+            <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--text-tertiary)]">Studio Immersion</div>
+            <div className="w-full rounded-[32px] overflow-hidden border border-[var(--border-color)] shadow-2xl">
+              <video
+                className="w-full h-full object-cover"
+                autoPlay
+                loop
+                muted
+                playsInline
+              >
+                <source src="/videos/hero-transformation.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <p className="text-sm md:text-base text-[var(--text-secondary)] text-center font-medium max-w-3xl">
+              Watch how architects move from brief to build inside the MR CEU Studio — real models, real documentation, real compliance.
+            </p>
           </div>
         </section>
 
