@@ -23,21 +23,45 @@ const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, courseTi
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Honeypot check
-    if (formData.honeypot) return;
 
+    if (formData.honeypot) return;
     setStatus('loading');
 
-    // Simulate API call for Preview environment
-    setTimeout(() => {
-      setStatus('success');
-      // No actual API calls in this environment to avoid 404s
-      setTimeout(() => {
-        setStatus('idle');
-        onClose();
-      }, 2000);
-    }, 1200);
+    try {
+      const payload = {
+        firstName: formData.firstName.trim(),
+        lastName: formData.lastName.trim(),
+        company: formData.company.trim(),
+        role: formData.role,
+        email: formData.email.trim(),
+      };
+
+      const response = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setFormData({ ...formData, firstName: '', lastName: '', company: '', email: '', honeypot: '' });
+        setTimeout(() => {
+          setStatus('idle');
+          onClose();
+        }, 2000);
+        return;
+      }
+
+      if (response.status === 409) {
+        setStatus('duplicate');
+        return;
+      }
+
+      setStatus('error');
+    } catch (error) {
+      console.error('waitlist submission failed', error);
+      setStatus('error');
+    }
   };
 
   return (
