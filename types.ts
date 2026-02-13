@@ -72,3 +72,50 @@ export enum ActID {
   DOCUMENTATION_SPEC = 5,
   KNOWLEDGE_CHECK = 6
 }
+
+
+export interface CourseModuleMeta {
+  id: string;
+  title: string;
+  objective: string;
+  durationMinutes: number;
+  status: 'draft' | 'builder preview' | 'ready to launch';
+  actId?: ActID;
+}
+
+export interface CourseDocumentAsset {
+  id: string;
+  label: string;
+  type: 'brief' | 'spec' | 'quiz' | 'transcript' | 'pdf';
+  url?: string;
+  ingestionStatus: 'missing' | 'queued' | 'processing' | 'ready' | 'error';
+}
+
+export interface CourseEntity {
+  id: string;
+  title: string;
+  description: string;
+  creditHours: number;
+  hsw: boolean;
+  sectorFocus: ProjectSector[];
+  modules: CourseModuleMeta[];
+  documents: CourseDocumentAsset[];
+  status: 'draft' | 'pilot' | 'live';
+  updatedAt: string;
+}
+
+export interface IngestionJob {
+  id: string;
+  courseId: string;
+  fileName: string;
+  status: 'queued' | 'processing' | 'ready' | 'error';
+  submittedBy?: string;
+  submittedAt: string;
+  notes?: string;
+}
+
+export interface IntelligenceTurn {
+  role: 'architect' | 'studio' | 'system';
+  content: string;
+  createdAt: string;
+}
