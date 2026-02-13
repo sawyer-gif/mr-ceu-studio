@@ -4,6 +4,7 @@ import { ShieldCheck, Lock, X, Box, Award, FileText } from 'lucide-react';
 import { User } from '../types';
 import WaitlistModal from './WaitlistModal';
 import LegalModals from './LegalModals';
+import { ComplianceCard, LearningSystemCard, OutcomeCard, icons as reportIcons } from './StudioValueCards';
 
 interface LandingPageProps {
   onLogin: (user: User) => void;
@@ -39,6 +40,82 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, isAdminLoginOpen, on
 
   const firms = ["Gensler", "HOK", "HDR", "Perkins&Will", "HKS", "AECOM", "Corgan", "PGAL", "Populous"];
   const marqueeContent = Array(10).fill(firms).flat();
+
+  const complianceLayer = [
+    {
+      title: 'AIA Compliance Engine',
+      description: 'Every studio act is mapped to AIA / HSW learning objectives with traceable audit logs.',
+      badge: 'Compliance Layer',
+      variant: 'compliance' as const,
+      icon: reportIcons.compliance,
+      details: 'Mappings feed the provider transcript export so audits can be answered in minutes.',
+    },
+    {
+      title: 'Verified Learning Telemetry',
+      description: 'Studio tracks real engagement, time-on-task, and decision completion — not passive viewing.',
+      badge: 'Compliance Layer',
+      variant: 'compliance' as const,
+      icon: reportIcons.telemetry,
+      details: 'Telemetry is surfaced to learners so they understand exactly how credits are validated.',
+    },
+    {
+      title: 'Instructor-Verified Certification',
+      description: 'Certificates release only after telemetry + transcript review confirms completion.',
+      badge: 'Compliance Layer',
+      variant: 'compliance' as const,
+      icon: reportIcons.instructor,
+      details: 'Instructor attestation is tied to the audit log, enabling revocation or reissue with full context.',
+    },
+  ];
+
+  const learningLayer = [
+    {
+      title: 'Scenario-Based Learning',
+      description: 'Architects solve real project constraints, not hypothetical quizzes.',
+      badge: 'Product Experience',
+      icon: reportIcons.scenario,
+      details: 'Each act adapts to firm sector, project type, and desired material outcomes collected at onboarding.',
+    },
+    {
+      title: 'Project Decision Engine',
+      description: 'Learners make material, detailing, and spec decisions inside realistic project models.',
+      badge: 'Product Experience',
+      icon: reportIcons.decision,
+      details: 'Decisions can later sync to Copper / Airtable so BD can see interest signals tied to real accounts.',
+    },
+    {
+      title: 'Audit-Ready Transcript Generation',
+      description: 'Automatic transcript includes learning path, decisions, and time verification.',
+      badge: 'Product Experience',
+      icon: reportIcons.transcript,
+      details: 'Transcripts export as PDF + JSON so both AIA and internal counsel can review the same record.',
+    },
+  ];
+
+  const outcomeLayer = [
+    {
+      title: 'Earn Credit Faster',
+      description: 'One sitting, 60-minute studio earns 1.0 LU | HSW.',
+      badge: 'Outcome Layer',
+      icon: reportIcons.speed,
+      variant: 'outcome' as const,
+    },
+    {
+      title: 'Apply Knowledge Immediately',
+      description: 'Learners leave with a spec-ready artifact and next-step checklist.',
+      badge: 'Outcome Layer',
+      icon: reportIcons.apply,
+      variant: 'outcome' as const,
+    },
+    {
+      title: 'Increase Specification Confidence',
+      description: 'Telemetry highlights readiness gaps so reps know when to support.',
+      badge: 'Outcome Layer',
+      icon: reportIcons.confidence,
+      variant: 'outcome' as const,
+    },
+  ];
+
 
   return (
     <div className="relative min-h-screen bg-[var(--bg-dark)] text-[var(--text-primary)] flex flex-col items-center overflow-x-hidden transition-colors duration-500">
@@ -177,23 +254,36 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, isAdminLoginOpen, on
           </div>
         </section>
 
-        {/* Value Section Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-12 w-full py-32 px-4">
-          {[
-            { icon: Box, title: "STUDIO INTERFACE", desc: "Interactive modules designed for architects who learn by doing, not just watching." },
-            { icon: Award, title: "1.0 HSW CREDIT", desc: "Meet your annual Health, Safety, and Welfare requirements with verified project-based learning." },
-            { icon: FileText, title: "REAL WORLD APPLICATION", desc: "Turn CEU learning into real design decisions" }
-          ].map((item, idx) => (
-            <div key={idx} className="flex flex-col items-center gap-8 p-12 rounded-[48px] bg-[var(--bg-surface)] border border-[var(--border-color)] shadow-sm hover:border-[var(--accent-purple)]/30 transition-all group">
-              <div className="w-20 h-20 rounded-3xl bg-[var(--bg-dark)] flex items-center justify-center text-[var(--accent-purple)] border border-[var(--border-color)] group-hover:scale-110 transition-transform">
-                <item.icon size={32} />
-              </div>
-              <div className="text-center space-y-4">
-                <h3 className="font-black text-[14px] uppercase tracking-widest text-[var(--text-primary)]">{item.title}</h3>
-                <p className="text-[14px] text-[var(--text-secondary)] leading-relaxed font-medium">{item.desc}</p>
-              </div>
+        <section className="w-full border-t border-[var(--border-color)] bg-[var(--bg-dark)]/70 py-28 px-4">
+          <div className="max-w-6xl mx-auto space-y-12">
+            <div className="space-y-4 text-center">
+              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--text-tertiary)]">How MR CEU Studio Delivers Verifiable Learning</p>
+              <h2 className="text-4xl md:text-5xl font-black text-[var(--text-primary)]">High-trust CEU delivery that mirrors the product experience</h2>
+              <p className="text-[var(--text-secondary)] text-base md:text-lg max-w-3xl mx-auto">Every interaction is mapped to AIA HSW objectives and recorded for audit-ready certification delivery.</p>
             </div>
-          ))}
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {complianceLayer.map((card) => (
+                <ComplianceCard key={card.title} {...card} />
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {learningLayer.map((card) => (
+                <LearningSystemCard key={card.title} {...card} />
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {outcomeLayer.map((card) => (
+                <OutcomeCard key={card.title} {...card} />
+              ))}
+            </div>
+
+            <div className="rounded-[32px] border border-white/10 bg-white/5 p-6 text-sm text-white/80 text-center">
+              Learning interaction analytics are transparent, opt-in, and exist to personalize the experience while staying aligned with AIA ethics expectations.
+            </div>
+          </div>
         </section>
 
       <footer className="w-full border-t border-[var(--border-color)] py-20 px-12 flex flex-col md:flex-row justify-between items-center gap-10 opacity-70">
