@@ -1,19 +1,17 @@
 
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, Lock, X, Sun, Moon, Box, Award, FileText, Sparkles, Layers, Clock3, FileCheck2, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Lock, X, Box, Award, FileText } from 'lucide-react';
 import { User } from '../types';
 import WaitlistModal from './WaitlistModal';
 import LegalModals from './LegalModals';
 
 interface LandingPageProps {
   onLogin: (user: User) => void;
-  theme: 'dark' | 'light';
-  toggleTheme: () => void;
   isAdminLoginOpen: boolean;
   onAdminLoginToggle: (isOpen: boolean) => void;
 }
 
-const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, isAdminLoginOpen, onAdminLoginToggle }) => {
+const LandingPage: React.FC<LandingPageProps> = ({ onLogin, isAdminLoginOpen, onAdminLoginToggle }) => {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [legalType, setLegalType] = useState<'compliance' | 'privacy' | 'terms' | null>(null);
   const [adminCreds, setAdminCreds] = useState({ email: '', password: '' });
@@ -41,18 +39,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
 
   const firms = ["Gensler", "HOK", "HDR", "Perkins&Will", "HKS", "AECOM", "Corgan", "PGAL", "Populous"];
   const marqueeContent = Array(10).fill(firms).flat();
-
-  const studioModules = [
-    { title: 'Act 01 · Project Context', status: 'Ready to launch', duration: '08 min', focus: 'Brief + existing conditions' },
-    { title: 'Act 03 · Surface Customization', status: 'Builder preview', duration: '12 min', focus: 'Parametric paneling decisions' },
-    { title: 'Act 06 · HSW Assessment', status: 'AIA QA running', duration: '06 min', focus: 'Scenario-based knowledge check' }
-  ];
-
-  const complianceSignals = [
-    { label: 'HSW-aligned outcomes', detail: 'Every interaction mapped to AIA/HSW objectives with audit trails.' },
-    { label: 'Time-on-task telemetry', detail: 'Server-tracked engagement meets AIA minutes without manual logging.' },
-    { label: 'Instant certificates', detail: 'Auto-generated PDF with project transcript + instructor attestation.' }
-  ];
 
   return (
     <div className="relative min-h-screen bg-[var(--bg-dark)] text-[var(--text-primary)] flex flex-col items-center overflow-x-hidden transition-colors duration-500">
@@ -101,9 +87,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
           </div>
         </div>
         <div className="flex items-center gap-4 md:gap-6">
-          <button onClick={toggleTheme} className="p-3 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all rounded-full border border-[var(--border-color)] hover:bg-[var(--bg-surface)]">
-            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
           <button onClick={() => setIsWaitlistOpen(true)} className="px-8 py-3 bg-[var(--text-primary)] text-[var(--bg-dark)] rounded-full text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-lg flex items-center gap-2">
              Join Waitlist
           </button>
@@ -211,98 +194,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
               </div>
             </div>
           ))}
-        </section>
-
-        {/* Studio Access + Compliance Section */}
-        <section className="w-full border-t border-[var(--border-color)] bg-gradient-to-b from-[#05050a] via-[var(--bg-dark)] to-[var(--bg-dark)] py-28 px-4 relative overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(circle_at_top,_rgba(111,60,195,0.15),_transparent_55%)]" />
-          <div className="relative max-w-6xl mx-auto grid gap-10 lg:grid-cols-[1.1fr_1fr_0.9fr] items-start">
-            <div className="space-y-6">
-              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--text-tertiary)]">Studio Access · Phase 1.5</p>
-              <h2 className="text-4xl md:text-5xl font-black text-[var(--text-primary)] leading-tight">
-                Dark-mode studio access built for architects under deadline.
-              </h2>
-              <p className="text-base md:text-lg text-[var(--text-secondary)]">
-                Preview the exact sequence learners experience once granted access. Modules unlock in dark mode, log time-on-task, and generate audit-ready transcripts the moment a CEU is awarded.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <button
-                  onClick={() => setIsWaitlistOpen(true)}
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--text-primary)] text-[var(--bg-dark)] font-black uppercase tracking-[0.3em] text-[11px] shadow-lg hover:scale-[1.02] transition-transform"
-                >
-                  <Sparkles size={14} /> Request studio access
-                </button>
-                <button
-                  onClick={() => setLegalType('compliance')}
-                  className="px-8 py-4 rounded-full border border-[var(--border-color)] text-[var(--text-primary)] font-black uppercase tracking-[0.3em] text-[11px] hover:bg-white/5 transition-colors"
-                >
-                  View compliance outline
-                </button>
-              </div>
-            </div>
-            <div className="bg-[var(--bg-surface)] border border-[var(--border-color)] rounded-[32px] p-8 shadow-xl space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-[var(--bg-dark)] flex items-center justify-center text-[var(--accent-purple)] border border-[var(--border-color)]">
-                  <Layers size={20} />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[var(--text-tertiary)]">Module roadmap</p>
-                  <p className="text-sm text-[var(--text-secondary)]">Earn the credit in one sitting</p>
-                </div>
-              </div>
-              <div className="space-y-4">
-                {studioModules.map((module, idx) => (
-                  <div
-                    key={module.title}
-                    className="p-4 rounded-2xl bg-[var(--bg-dark)]/60 border border-[var(--border-color)] flex items-start gap-4 hover:border-[var(--accent-purple)]/40 transition-colors"
-                  >
-                    <div className="flex-none w-10 h-10 rounded-2xl bg-black/40 text-[var(--accent-purple)] flex items-center justify-center font-black text-xs">
-                      {idx + 1}
-                    </div>
-                    <div className="space-y-1.5">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <p className="text-sm font-black uppercase tracking-widest text-[var(--text-primary)]">{module.title}</p>
-                        <span className="text-[9px] px-3 py-1 rounded-full bg-white/5 border border-white/10 uppercase tracking-[0.2em] text-[var(--text-secondary)]">{module.status}</span>
-                      </div>
-                      <p className="text-sm text-[var(--text-secondary)]">{module.focus}</p>
-                      <div className="text-[11px] font-black uppercase tracking-[0.4em] text-[var(--text-tertiary)] flex items-center gap-2">
-                        <Clock3 size={12} /> {module.duration}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="bg-black/50 border border-[var(--border-color)] rounded-[32px] p-8 text-white shadow-[0_20px_60px_rgba(0,0,0,0.35)] space-y-6 backdrop-blur-2xl">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-[var(--accent-purple)]">
-                  <FileCheck2 size={24} />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/60">Compliance panel</p>
-                  <p className="font-black text-xl">Trust-first delivery</p>
-                </div>
-              </div>
-              <p className="text-sm text-white/80">
-                MR CEU Studio issues certificates only after telemetry proves the learner met HSW objectives and an instructor approves the transcript.
-              </p>
-              <div className="space-y-4">
-                {complianceSignals.map((item) => (
-                  <div key={item.label} className="flex items-start gap-3">
-                    <CheckCircle2 className="text-green-400 flex-none" size={18} />
-                    <div>
-                      <p className="text-sm font-semibold">{item.label}</p>
-                      <p className="text-sm text-white/70">{item.detail}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="rounded-2xl border border-white/15 bg-white/5 p-4 text-sm space-y-2">
-                <p className="font-black uppercase tracking-[0.3em] text-[var(--text-secondary)]">AIA CES Provider · MR CEU Studio</p>
-                <p className="text-white/80">Phase 1 ships the public landing + Airtable waitlist. Phase 1.5 aligns the studio UI so the first HSW cohort walks into a trust-ready experience.</p>
-              </div>
-            </div>
-          </div>
         </section>
 
       <footer className="w-full border-t border-[var(--border-color)] py-20 px-12 flex flex-col md:flex-row justify-between items-center gap-10 opacity-70">

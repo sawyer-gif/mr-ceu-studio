@@ -61,6 +61,12 @@ const App: React.FC = () => {
     }
   }, [theme]);
 
+  useEffect(() => {
+    if (view === 'landing' && theme !== 'dark') {
+      setTheme('dark');
+    }
+  }, [view, theme]);
+
   // Time-on-task tracker
   useEffect(() => {
     if (view !== 'studio' || !session) return;
@@ -154,8 +160,6 @@ const App: React.FC = () => {
     return (
       <LandingPage 
         onLogin={handleLogin} 
-        theme={theme} 
-        toggleTheme={toggleTheme} 
         isAdminLoginOpen={isAdminLoginOpen}
         onAdminLoginToggle={setIsAdminLoginOpen}
       />
