@@ -19,32 +19,32 @@ export interface StudioScenario {
 const defaultScenario: StudioScenario = {
   title: 'Airport Restroom Wall System',
   scenario: 'Public concourse restrooms are sanitized every hour with aggressive ammonium-based cleaners. Panels must resist chemicals and repeated abrasion.',
-  question: 'Which surface strategy protects long-term durability?',
+  question: 'Which wall surface strategy best supports long-term durability + hygiene in high-frequency disinfecting?',
   tag: 'HSW · Health & Welfare',
   options: [
     {
-      id: 'standard',
-      label: 'Standard solid surface finish',
-      reasoning: 'Initial install cost is lowest, but chemical attack quickly dulls the finish and creates micro fissures that trap bacteria.',
-      hswImpact: 'Compromises cleanability and increases maintenance shutdowns.',
-    },
-    {
-      id: 'chem-resistant',
-      label: 'Chemical-resistant enhanced finish',
-      reasoning:
-        'Maintains the non-porous barrier after thousands of cleaning cycles and prevents discoloration or chalking in high-traffic zones.',
-      hswImpact: 'Protects occupant health by keeping surfaces sealed and easy to disinfect.',
+      id: 'solid',
+      label: 'Solid surface panels with welded/seam-minimized joints',
+      reasoning: 'Non-porous barrier stays intact during repeated disinfecting cycles and can be renewed if micro-abrasion appears.',
+      hswImpact: 'Keeps maintenance predictable and surfaces hygienic without heavy downtime.',
       recommended: true,
     },
     {
-      id: 'deep-cnc',
-      label: 'Deep CNC textured surface',
-      reasoning:
-        'Adds dramatic wayfinding texture, but grooves capture residue and require specialty cleaning equipment that airports rarely budget for.',
-      hswImpact: 'Visual impact is high, but welfare risk increases because residue builds up in recesses.',
+      id: 'metal',
+      label: 'Metal panels (scratches/scuffs show, finish wear)',
+      reasoning: 'Scratches expose raw metal and hold residue, demanding periodic refinishing and inspections in public zones.',
+      hswImpact: 'Adds operational risk because cleaning staff must avoid abrasive tools and monitor corrosion.',
+    },
+    {
+      id: 'tile',
+      label: 'Stone / tile with grout lines (grout maintenance)',
+      reasoning: 'Grout absorbs stains and requires aggressive maintenance; joints harbor grime between cleanings.',
+      hswImpact: 'Increases hygiene risk and extends cleaning labor windows.',
     },
   ],
 };
+
+import MaterialStressTest from './MaterialStressTest';
 
 interface StudioPreviewModuleProps {
   scenario?: StudioScenario;
@@ -70,6 +70,9 @@ const StudioPreviewModule: React.FC<StudioPreviewModuleProps> = ({ scenario = de
         </div>
 
         <p className="text-sm md:text-base text-white/80 leading-relaxed max-w-4xl">{scenario.scenario}</p>
+
+        <MaterialStressTest />
+
         <p className="text-xl font-semibold text-white">{scenario.question}</p>
 
         <div className="grid gap-4">
