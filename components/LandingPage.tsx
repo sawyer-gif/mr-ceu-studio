@@ -1,18 +1,21 @@
 
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, Lock, X, Box, Award, FileText } from 'lucide-react';
+import { ShieldCheck, Lock, X, Sun, Moon } from 'lucide-react';
 import { User } from '../types';
 import WaitlistModal from './WaitlistModal';
 import LegalModals from './LegalModals';
-import { ComplianceCard, LearningSystemCard, OutcomeCard, icons as reportIcons } from './StudioValueCards';
+import StudioPreviewModule from './studio/StudioPreviewModule';
+import StudioPreviewModule from './studio/StudioPreviewModule';
 
 interface LandingPageProps {
   onLogin: (user: User) => void;
+  theme: 'dark' | 'light';
+  toggleTheme: () => void;
   isAdminLoginOpen: boolean;
   onAdminLoginToggle: (isOpen: boolean) => void;
 }
 
-const LandingPage: React.FC<LandingPageProps> = ({ onLogin, isAdminLoginOpen, onAdminLoginToggle }) => {
+const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, isAdminLoginOpen, onAdminLoginToggle }) => {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [legalType, setLegalType] = useState<'compliance' | 'privacy' | 'terms' | null>(null);
   const [adminCreds, setAdminCreds] = useState({ email: '', password: '' });
@@ -41,80 +44,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, isAdminLoginOpen, on
   const firms = ["Gensler", "HOK", "HDR", "Perkins&Will", "HKS", "AECOM", "Corgan", "PGAL", "Populous"];
   const marqueeContent = Array(10).fill(firms).flat();
 
-  const complianceLayer = [
-    {
-      title: 'AIA Compliance Engine',
-      description: 'Every studio act is mapped to AIA / HSW learning objectives with traceable audit logs.',
-      badge: 'Compliance Layer',
-      variant: 'compliance' as const,
-      icon: reportIcons.compliance,
-      details: 'Mappings feed the provider transcript export so audits can be answered in minutes.',
-    },
-    {
-      title: 'Verified Learning Telemetry',
-      description: 'Studio tracks real engagement, time-on-task, and decision completion — not passive viewing.',
-      badge: 'Compliance Layer',
-      variant: 'compliance' as const,
-      icon: reportIcons.telemetry,
-      details: 'Telemetry is surfaced to learners so they understand exactly how credits are validated.',
-    },
-    {
-      title: 'Instructor-Verified Certification',
-      description: 'Certificates release only after telemetry + transcript review confirms completion.',
-      badge: 'Compliance Layer',
-      variant: 'compliance' as const,
-      icon: reportIcons.instructor,
-      details: 'Instructor attestation is tied to the audit log, enabling revocation or reissue with full context.',
-    },
-  ];
-
-  const learningLayer = [
-    {
-      title: 'Scenario-Based Learning',
-      description: 'Architects solve real project constraints, not hypothetical quizzes.',
-      badge: 'Product Experience',
-      icon: reportIcons.scenario,
-      details: 'Each act adapts to firm sector, project type, and desired material outcomes collected at onboarding.',
-    },
-    {
-      title: 'Project Decision Engine',
-      description: 'Learners make material, detailing, and spec decisions inside realistic project models.',
-      badge: 'Product Experience',
-      icon: reportIcons.decision,
-      details: 'Decisions can later sync to Copper / Airtable so BD can see interest signals tied to real accounts.',
-    },
-    {
-      title: 'Audit-Ready Transcript Generation',
-      description: 'Automatic transcript includes learning path, decisions, and time verification.',
-      badge: 'Product Experience',
-      icon: reportIcons.transcript,
-      details: 'Transcripts export as PDF + JSON so both AIA and internal counsel can review the same record.',
-    },
-  ];
-
-  const outcomeLayer = [
-    {
-      title: 'Earn Credit Faster',
-      description: 'One sitting, 60-minute studio earns 1.0 LU | HSW.',
-      badge: 'Outcome Layer',
-      icon: reportIcons.speed,
-      variant: 'outcome' as const,
-    },
-    {
-      title: 'Apply Knowledge Immediately',
-      description: 'Learners leave with a spec-ready artifact and next-step checklist.',
-      badge: 'Outcome Layer',
-      icon: reportIcons.apply,
-      variant: 'outcome' as const,
-    },
-    {
-      title: 'Increase Specification Confidence',
-      description: 'Telemetry highlights readiness gaps so reps know when to support.',
-      badge: 'Outcome Layer',
-      icon: reportIcons.confidence,
-      variant: 'outcome' as const,
-    },
-  ];
 
 
   return (
@@ -164,6 +93,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, isAdminLoginOpen, on
           </div>
         </div>
         <div className="flex items-center gap-4 md:gap-6">
+          <button
+            onClick={toggleTheme}
+            className="p-3 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all rounded-full border border-[var(--border-color)] hover:bg-[var(--bg-surface)]"
+            aria-label="Toggle theme"
+          >
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
           <button onClick={() => setIsWaitlistOpen(true)} className="px-8 py-3 bg-[var(--text-primary)] text-[var(--bg-dark)] rounded-full text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-lg flex items-center gap-2">
              Join Waitlist
           </button>
@@ -255,33 +191,21 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, isAdminLoginOpen, on
         </section>
 
         <section className="w-full border-t border-[var(--border-color)] bg-[var(--bg-dark)]/70 py-28 px-4">
-          <div className="max-w-6xl mx-auto space-y-12">
+          <div className="max-w-5xl mx-auto space-y-12">
             <div className="space-y-4 text-center">
-              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--text-tertiary)]">How MR CEU Studio Delivers Verifiable Learning</p>
-              <h2 className="text-4xl md:text-5xl font-black text-[var(--text-primary)]">High-trust CEU delivery that mirrors the product experience</h2>
-              <p className="text-[var(--text-secondary)] text-base md:text-lg max-w-3xl mx-auto">Every interaction is mapped to AIA HSW objectives and recorded for audit-ready certification delivery.</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--text-tertiary)]">Inside the MR CEU Studio Experience</p>
+              <h2 className="text-4xl md:text-5xl font-black text-[var(--text-primary)]">See how architects learn through real project decisions</h2>
+              <p className="text-[var(--text-secondary)] text-base md:text-lg max-w-3xl mx-auto">Real scenarios, real decisions, real HSW validation — not passive slides.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {complianceLayer.map((card) => (
-                <ComplianceCard key={card.title} {...card} />
-              ))}
-            </div>
+            <StudioPreviewModule />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {learningLayer.map((card) => (
-                <LearningSystemCard key={card.title} {...card} />
-              ))}
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {outcomeLayer.map((card) => (
-                <OutcomeCard key={card.title} {...card} />
-              ))}
-            </div>
-
-            <div className="rounded-[32px] border border-white/10 bg-white/5 p-6 text-sm text-white/80 text-center">
-              Learning interaction analytics are transparent, opt-in, and exist to personalize the experience while staying aligned with AIA ethics expectations.
+            <div className="rounded-[30px] border border-white/10 bg-white/5 px-6 py-4 text-[10px] md:text-xs text-white/80 font-black uppercase tracking-[0.4em] flex flex-wrap items-center justify-center gap-4">
+              <span>✓ AIA HSW Mapped Outcomes</span>
+              <span className="hidden md:inline">•</span>
+              <span>✓ Verified Time-on-Task Tracking</span>
+              <span className="hidden md:inline">•</span>
+              <span>✓ Instructor Reviewed Transcript</span>
             </div>
           </div>
         </section>
