@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { ShieldCheck, Sparkles, Grid, Layers } from 'lucide-react';
+import MaterialPlayground from './MaterialPlayground';
 
 interface ScenarioOption {
   id: string;
@@ -18,7 +20,8 @@ export interface StudioScenario {
 
 const defaultScenario: StudioScenario = {
   title: 'Airport Restroom Wall System',
-  scenario: 'Public concourse restrooms are sanitized every hour with aggressive ammonium-based cleaners. Panels must resist chemicals and repeated abrasion.',
+  scenario:
+    'Public concourse restrooms are sanitized every hour with aggressive ammonium-based cleaners. Panels must resist chemicals and repeated abrasion.',
   question: 'Which wall surface strategy best supports long-term durability + hygiene in high-frequency disinfecting?',
   tag: 'HSW · Health & Welfare',
   options: [
@@ -31,7 +34,7 @@ const defaultScenario: StudioScenario = {
     },
     {
       id: 'metal',
-      label: 'Metal panels (scratches/scuffs show, finish wear)',
+      label: 'Metal panels (scratches/scuffs show; finish wear)',
       reasoning: 'Scratches expose raw metal and hold residue, demanding periodic refinishing and inspections in public zones.',
       hswImpact: 'Adds operational risk because cleaning staff must avoid abrasive tools and monitor corrosion.',
     },
@@ -44,7 +47,17 @@ const defaultScenario: StudioScenario = {
   ],
 };
 
-import MaterialStressTest from './MaterialStressTest';
+const iconMap: Record<string, JSX.Element> = {
+  solid: <ShieldCheck size={20} className="text-green-300" />,
+  metal: <Sparkles size={20} className="text-yellow-200" />,
+  tile: <Grid size={20} className="text-red-200" />,
+};
+
+const snippetMap: Record<string, string> = {
+  solid: 'Seam-minimized, renewable surface keeps harsh cleaners out.',
+  metal: 'Visible scratches + finish wear become hygiene hotspots.',
+  tile: 'Grout joints absorb residue and extend cleaning downtime.',
+};
 
 interface StudioPreviewModuleProps {
   scenario?: StudioScenario;
@@ -71,7 +84,7 @@ const StudioPreviewModule: React.FC<StudioPreviewModuleProps> = ({ scenario = de
 
         <p className="text-sm md:text-base text-white/80 leading-relaxed max-w-4xl">{scenario.scenario}</p>
 
-        <MaterialStressTest />
+        <MaterialPlayground />
 
         <p className="text-xl font-semibold text-white">{scenario.question}</p>
 
@@ -80,24 +93,39 @@ const StudioPreviewModule: React.FC<StudioPreviewModuleProps> = ({ scenario = de
             const active = option.id === selection;
             const correct = option.recommended;
             return (
-              <button
+              <div
                 key={option.id}
+                role="button"
+                tabIndex={0}
                 onClick={() => setSelection(option.id)}
-                className={`text-left rounded-[28px] border px-6 py-5 transition-all duration-150 flex items-center justify-between gap-4 ${
+                onKeyDown={(e) => e.key === 'Enter' && setSelection(option.id)}
+                className={`rounded-[28px] border px-5 py-4 flex flex-col gap-3 bg-white/5 text-white/85 transition-all ${
                   active
                     ? correct
-                      ? 'border-green-400/50 bg-green-500/10 text-white'
-                      : 'border-red-400/40 bg-red-500/5 text-white'
-                    : 'border-white/15 bg-white/5 text-white/80 hover:border-white/40'
+                      ? 'border-green-400/60 bg-green-500/10'
+                      : 'border-red-400/50 bg-red-500/10'
+                    : 'border-white/15 hover:border-white/40'
                 }`}
               >
-                <span className="font-semibold tracking-tight">{option.label}</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl border border-white/10 bg-black/40 flex items-center justify-center">
+                    {iconMap[option.id] ?? <Layers size={18} className="text-white/60" />}
+                  </div>
+                  <div className="space-y-1">
+                    <p className="font-semibold leading-tight">{option.label}</p>
+                    <p className="text-sm text-white/70">{snippetMap[option.id]}</p>
+                  </div>
+                </div>
                 {active && (
-                  <span className={`text-[10px] font-black uppercase tracking-[0.4em] ${correct ? 'text-green-300' : 'text-red-300'}`}>
-                    {correct ? 'Recommended' : 'Consider impact'}
+                  <span
+                    className={`text-[10px] font-black uppercase tracking-[0.35em] ${
+                      correct ? 'text-green-300' : 'text-yellow-200'
+                    }`}
+                  >
+                    {correct ? 'Recommended' : 'Tradeoff — review impact'}
                   </span>
                 )}
-              </button>
+              </div>
             );
           })}
         </div>
@@ -107,10 +135,11 @@ const StudioPreviewModule: React.FC<StudioPreviewModuleProps> = ({ scenario = de
             <div className="text-[11px] font-black uppercase tracking-[0.4em] text-white/60">Result</div>
             <p className="text-base font-semibold">{chosen.reasoning}</p>
             <p className="text-sm text-white/70">HSW Impact: {chosen.hswImpact}</p>
+            <p className="text-xs text-white/60 uppercase tracking-[0.35em]">Try toggling stressors above to see how each material responds.</p>
             {chosen.recommended ? (
               <div className="text-xs uppercase tracking-[0.35em] text-green-300">Maintains long-term health & welfare compliance</div>
             ) : (
-              <div className="text-xs uppercase tracking-[0.35em] text-yellow-300/80">Flag for VE review before spec</div>
+              <div className="text-xs uppercase tracking-[0.35em] text-yellow-300/80">Requires additional maintenance + VE consideration</div>
             )}
           </div>
         )}
