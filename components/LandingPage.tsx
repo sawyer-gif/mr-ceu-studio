@@ -185,7 +185,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
               </video>
             </div>
             <p className="text-sm md:text-base text-[var(--text-secondary)] text-center font-medium max-w-3xl">
-              Watch how architects move from brief to build inside the MR CEU Studio — real models, real documentation, real compliance.
+              We transform the industry’s static PDF CEU into a high-fidelity, interactive studio experience — while maintaining full AIA compliance and audit-ready documentation.
             </p>
           </div>
         </section>
