@@ -4,7 +4,7 @@ import { ShieldCheck, Lock, X, Sun, Moon } from 'lucide-react';
 import { User } from '../types';
 import WaitlistModal from './WaitlistModal';
 import LegalModals from './LegalModals';
-import DecisionPreview from './DecisionPreview';
+import DecisionSimulation from './DecisionSimulation';
 
 interface LandingPageProps {
   onLogin: (user: User) => void;
@@ -197,7 +197,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, theme, toggleTheme, 
               <p className="text-[var(--text-secondary)] text-base md:text-lg max-w-3xl mx-auto">Real scenarios, real decisions, real HSW validation — not passive slides.</p>
             </div>
 
-            <DecisionPreview />
+            <DecisionSimulation onOpenWaitlist={() => setIsWaitlistOpen(true)} />
 
             <div className="rounded-[30px] border border-white/10 bg-white/5 px-6 py-4 text-[10px] md:text-xs text-white/80 font-black uppercase tracking-[0.4em] flex flex-wrap items-center justify-center gap-4">
               <span>✓ AIA HSW Mapped Outcomes</span>
