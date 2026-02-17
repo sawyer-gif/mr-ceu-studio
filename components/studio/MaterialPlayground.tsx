@@ -1,236 +1,113 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
-const MATERIALS = {
-  solid: {
-    label: 'Solid Surface',
-    statement: 'Renewable, seam-minimized barrier stays clean after thousands of disinfecting cycles.',
-    legend: ['Non-porous core', 'Thermoformed seams', 'Refinish on site'],
-    base: 'radial-gradient(circle at 40% 30%, rgba(255,255,255,0.35), rgba(180,180,200,0.05))',
-    overlay: 'linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0))',
-  },
-  metal: {
-    label: 'Metal Panels',
-    statement: 'Brushed metal reveals scratches and finish wear quickly in public zones.',
-    legend: ['Visible scratches', 'Finish touch-ups', 'Potential corrosion'],
-    base: 'linear-gradient(90deg, rgba(200,200,210,0.4), rgba(120,120,140,0.2))',
-    overlay:
-      'repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0 2px, rgba(0,0,0,0.05) 2px 4px), radial-gradient(circle at 20% 20%, rgba(255,255,255,0.15), transparent 45%)',
-  },
-  tile: {
-    label: 'Tile / Stone',
-    statement: 'Imported stone looks premium but grout lines harbor grime between cleanings.',
-    legend: ['Grout darkening', 'Sealant cycles', 'Joint cleaning labor'],
-    base: 'linear-gradient(120deg, rgba(210,190,170,0.35), rgba(150,130,110,0.15))',
-    overlay:
-      'linear-gradient(0deg, transparent calc(100% - 4px), rgba(0,0,0,0.25) calc(100% - 4px)), linear-gradient(90deg, transparent calc(100% - 4px), rgba(0,0,0,0.25) calc(100% - 4px))',
-  },
-} as const;
+const HERO_LAYERS = [
+  'radial-gradient(circle at 20% 30%, rgba(255,255,255,0.35), transparent 45%)',
+  'linear-gradient(120deg, rgba(15,21,35,0.85), rgba(5,7,12,0.95))',
+  'url("data:image/svg+xml,%3Csvg width=\'400\' height=\'400\' viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 200 L400 200 M200 0 L200 400\' stroke=\'%23FFFFFF0D\' stroke-width=\'1\'/%3E%3C/svg%3E")'
+];
 
-const outcomeScores = (
-  material: keyof typeof MATERIALS,
-  cleaning: 'low' | 'high',
-  chemicals: boolean,
-  abrasion: boolean
-) => {
-  if (material === 'solid') {
-    return {
-      cleanability: 95,
-      damage: abrasion ? 20 : 10,
-      hygiene: chemicals ? 95 : 90,
-      summary: 'Maintains a renewable, non-porous barrier with minimal downtime.',
-      bullets: ['Surface can be sanded / renewed on site.', 'No grout joints = fewer sanitation shutdowns.'],
-      hsw: 'HSW: reduces pathogen retention surfaces and supports efficient disinfection.',
-    };
-  }
-  if (material === 'metal') {
-    return {
-      cleanability: cleaning === 'high' ? 70 : 75,
-      damage: abrasion || chemicals ? 65 : 50,
-      hygiene: 70,
-      summary: 'Scratches expose raw metal and hold residue — requires careful inspection.',
-      bullets: ['Finish wear becomes visible quickly.', 'Touch-up programs add labor + cost.'],
-      hsw: 'HSW: monitor for burrs / corrosion that could impact public safety.',
-    };
-  }
-  return {
-    cleanability: cleaning === 'high' ? 60 : 65,
-    damage: abrasion ? 40 : 30,
-    hygiene: chemicals ? 45 : 55,
-    summary: 'Grout joints darken and harbor grime despite frequent cleaning.',
-    bullets: ['Requires re-sealing + grout replacement.', 'Staining is difficult to remove in public restrooms.'],
-    hsw: 'HSW: joints prolong cleaning windows and increase hygiene risk.',
-  };
-};
+const COMPARISON_POINTS = [
+  'Seam-minimized construction reduces contamination points.',
+  'Renewable surface can be restored instead of replaced.',
+  'Non-porous composition withstands aggressive sanitation cycles.'
+];
 
-const chipClass = (value: number, label: string) => {
-  const palette =
-    label === 'Hygiene Risk'
-      ? value >= 80
-        ? 'bg-green-500/20 border-green-400/30 text-green-200'
-        : value >= 50
-        ? 'bg-yellow-500/15 border-yellow-400/30 text-yellow-100'
-        : 'bg-red-500/15 border-red-400/30 text-red-200'
-      : value >= 80
-      ? 'bg-green-500/20 border-green-400/30 text-green-200'
-      : value >= 60
-      ? 'bg-yellow-500/15 border-yellow-400/30 text-yellow-100'
-      : 'bg-red-500/15 border-red-400/30 text-red-200';
-  return palette;
+const QUESTION = {
+  prompt: 'Which strategy best supports long-term hygiene in high-use environments?',
+  options: [
+    {
+      id: 'seamless',
+      label: 'Continuous solid surface with field-renewable finish',
+      explanation: 'Solid surface minimizes joints, allowing teams to sand and renew the skin without removing walls. Hygiene relies on removing failure points, not just specifying harder materials.',
+      correct: true
+    },
+    {
+      id: 'coatings',
+      label: 'Hard coat on metal panels to resist scratching',
+      explanation: 'Protective coatings delay damage but once breached, the substrate traps residue. Repairs require downtime and localized patching that rarely matches adjacent panels.'
+    },
+    {
+      id: 'tile',
+      label: 'Large-format tile with antimicrobial grout',
+      explanation: 'Antimicrobial additives slow growth but grout joints still require constant re-sealing. Every joint reintroduces a maintenance seam.'
+    }
+  ]
 };
 
 const MaterialPlayground: React.FC = () => {
-  const [material, setMaterial] = useState<keyof typeof MATERIALS>('solid');
-  const [cleaning, setCleaning] = useState<'low' | 'high'>('high');
-  const [chemicals, setChemicals] = useState(true);
-  const [abrasion, setAbrasion] = useState(true);
-  const [tilt, setTilt] = useState({ x: 8, y: -8 });
-
-  const metrics = outcomeScores(material, cleaning, chemicals, abrasion);
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientY - rect.top) / rect.height - 0.5) * 20;
-    const y = ((e.clientX - rect.left) / rect.width - 0.5) * -20;
-    setTilt({ x, y });
-  };
-
-  const handlePointerLeave = () => setTilt({ x: 8, y: -8 });
-
-  const activeMaterial = MATERIALS[material];
+  const [selection, setSelection] = useState<string | null>(null);
+  const selectedOption = useMemo(() => QUESTION.options.find((o) => o.id === selection), [selection]);
 
   return (
-    <div className="rounded-[36px] border border-white/15 bg-black/30 p-6 md:p-8 space-y-8">
-      <div className="flex flex-wrap gap-3 rounded-[26px] border border-white/10 bg-white/5 p-2">
-        {Object.entries(MATERIALS).map(([id, data]) => (
-          <button
-            key={id}
-            onClick={() => setMaterial(id as keyof typeof MATERIALS)}
-            className={`px-4 py-2 rounded-[18px] text-xs font-semibold tracking-[0.25em] transition-all ${
-              material === id ? 'bg-white text-black shadow-[0_10px_25px_rgba(0,0,0,0.25)]' : 'text-white/70 hover:text-white'
-            }`}
-          >
-            {data.label}
-          </button>
-        ))}
-      </div>
+    <div className="rounded-[42px] border border-white/10 bg-black/25 p-8 md:p-12 space-y-12 text-white/90">
+      <section className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center">
+        <div className="space-y-6">
+          <p className="text-[11px] uppercase tracking-[0.4em] text-white/50">Case Insight</p>
+          <h2 className="text-3xl md:text-[2.6rem] leading-tight font-semibold text-white">
+            High-frequency cleaning environments demand surfaces that don’t trap failure.
+          </h2>
+          <p className="text-lg text-white/70 max-w-2xl">
+            In transportation and healthcare spaces, durability isn’t about hardness — it’s about renewability and seamlessness. The construction logic matters more than the coating.
+          </p>
+        </div>
 
-      <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr]">
+        <div className="relative h-[360px] md:h-[420px] rounded-[36px] overflow-hidden border border-white/10 shadow-[0_35px_120px_rgba(0,0,0,0.45)]">
+          <div className="absolute inset-0" style={{ backgroundImage: HERO_LAYERS.join(',') }} />
+          <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/60" />
+          <div className="absolute inset-0 flex flex-col justify-end p-10 space-y-3">
+            <p className="text-sm uppercase tracking-[0.5em] text-white/60">Observation</p>
+            <p className="text-2xl font-semibold text-white">
+              Seamless wall shells tolerate thousands of cleanings without exposing substrate.
+            </p>
+            <p className="text-sm text-white/70 max-w-lg">
+              When maintenance teams sand and renew the surface, the assembly returns to a uniform state — no patchwork, no grout lines reintroduced.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-6">
+        <p className="text-[11px] uppercase tracking-[0.4em] text-white/50">Why solid surface behaves differently</p>
         <div className="space-y-4">
-          <div className="flex flex-wrap gap-4">
-            <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-[20px] px-5 py-3">
-              <span className="text-[10px] uppercase tracking-[0.35em] text-white/60">Cleaning</span>
-              <div className="flex gap-2">
-                {['low', 'high'].map((level) => (
-                  <button
-                    key={level}
-                    onClick={() => setCleaning(level as 'low' | 'high')}
-                    className={`px-3 py-1 rounded-full text-[11px] font-semibold ${
-                      cleaning === level ? 'bg-white text-black' : 'text-white/70'
-                    }`}
-                  >
-                    {level === 'low' ? 'Low' : 'High'}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <label className="flex items-center gap-2 text-[11px] uppercase tracking-[0.35em] text-white/70 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={chemicals}
-                onChange={(e) => setChemicals(e.target.checked)}
-                className="w-4 h-4 rounded border-white/30 bg-black/30 text-purple-400 focus:ring-purple-400"
-              />
-              Aggressive Chemicals
-            </label>
-            <label className="flex items-center gap-2 text-[11px] uppercase tracking-[0.35em] text-white/70 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={abrasion}
-                onChange={(e) => setAbrasion(e.target.checked)}
-                className="w-4 h-4 rounded border-white/30 bg-black/30 text-purple-400 focus:ring-purple-400"
-              />
-              Abrasion Zone
-            </label>
-          </div>
-
-          <div
-            className="relative rounded-[32px] border border-white/15 bg-gradient-to-br from-white/8 to-black/20 h-64 md:h-80 overflow-hidden"
-            onPointerMove={handlePointerMove}
-            onPointerLeave={handlePointerLeave}
-          >
+          {COMPARISON_POINTS.map((point, index) => (
             <div
-              className="absolute inset-4 rounded-[28px] shadow-[0_25px_60px_rgba(0,0,0,0.45)]"
-              style={{
-                backgroundImage: `${activeMaterial.base}${chemicals ? ', radial-gradient(circle at 30% 20%, rgba(255,255,255,0.4), transparent 40%)' : ''}`,
-                transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-                transition: 'transform 120ms ease-out',
-              }}
+              key={point}
+              className="text-lg md:text-xl text-white/75 border border-white/10 rounded-[28px] px-8 py-6 backdrop-blur-sm"
+              style={{ transition: 'opacity 400ms ease, transform 400ms ease', transitionDelay: `${index * 90}ms` }}
             >
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundImage: activeMaterial.overlay,
-                  opacity: abrasion ? 0.5 : material === 'tile' ? 0.4 : 0.2,
-                }}
-              />
-              {material === 'tile' && (
-                <div className="absolute inset-0" style={{ mixBlendMode: 'multiply', backgroundImage: activeMaterial.overlay, opacity: chemicals ? 0.6 : 0.3 }} />
-              )}
-              {material === 'metal' && abrasion && (
-                <div
-                  className="absolute inset-0 opacity-40"
-                  style={{
-                    backgroundImage: "url(\"data:image/svg+xml;utf8,<svg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'><path d='M5 5 L75 5 L75 75' stroke='rgba(255,255,255,0.25)' stroke-width='1'/></svg>\")",
-                  }}
-                />
-              )}
-              <div className="absolute inset-0 flex flex-col justify-end p-4 text-white/90">
-                <p className="text-sm font-semibold">{activeMaterial.label}</p>
-                <p className="text-xs text-white/70">{activeMaterial.statement}</p>
-              </div>
+              {point}
             </div>
-          </div>
-
-          <div className="flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.35em] text-white/60">
-            {activeMaterial.legend.map((item) => (
-              <span key={item} className="px-3 py-1 rounded-full border border-white/15 bg-white/5 text-white/80">
-                {item}
-              </span>
-            ))}
-          </div>
+          ))}
         </div>
+      </section>
 
-        <div className="space-y-5">
-          <div className="grid gap-3">
-            {[
-              { label: 'Cleanability', value: metrics.cleanability },
-              { label: 'Damage Visibility', value: metrics.damage },
-              { label: 'Hygiene Risk', value: metrics.hygiene },
-            ].map(({ label, value }) => (
-              <div
-                key={label}
-                className={`rounded-[18px] border px-4 py-3 text-sm font-semibold tracking-tight flex items-center justify-between ${chipClass(value, label)}`}
-              >
-                <span>{label}</span>
-                <span>{value}%</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="rounded-[24px] border border-white/15 bg-white/5 p-5 space-y-3 text-white/90">
-            <p className="text-sm font-semibold">{metrics.summary}</p>
-            <ul className="text-sm text-white/70 list-disc list-inside space-y-1">
-              {metrics.bullets.map((bullet) => (
-                <li key={bullet}>{bullet}</li>
-              ))}
-            </ul>
-            <p className="text-xs uppercase tracking-[0.35em] text-purple-200">{metrics.hsw}</p>
-          </div>
+      <section className="space-y-5">
+        <p className="text-[11px] uppercase tracking-[0.4em] text-white/50">Design prompt</p>
+        <h3 className="text-2xl font-semibold text-white">{QUESTION.prompt}</h3>
+        <div className="space-y-3">
+          {QUESTION.options.map((option) => (
+            <button
+              key={option.id}
+              onClick={() => setSelection(option.id)}
+              className={`w-full text-left px-6 py-5 rounded-[26px] border transition-colors duration-200 font-medium text-lg tracking-tight
+                ${selection === option.id ? 'border-white text-white bg-white/5' : 'border-white/10 text-white/80 hover:border-white/30'}`}
+            >
+              {option.label}
+            </button>
+          ))}
         </div>
-      </div>
+        {selectedOption && (
+          <div className="rounded-[28px] border border-white/10 bg-white/5 px-8 py-6 space-y-2">
+            <p className="text-sm uppercase tracking-[0.4em] text-white/50">Explanation</p>
+            <p className="text-lg text-white/85">{selectedOption.explanation}</p>
+            {selectedOption.correct && (
+              <p className="text-sm text-emerald-300/80 font-semibold">This is the strategy aligned with long-term hygiene planning.</p>
+            )}
+          </div>
+        )}
+      </section>
 
-      <p className="text-[11px] text-white/60 uppercase tracking-[0.35em]">
-        Interaction analytics are opt-in and used to improve learning quality.
-      </p>
+      <p className="text-[11px] text-white/50 uppercase tracking-[0.4em]">Learning interaction — no metrics, just reasoning.</p>
     </div>
   );
 };
